@@ -270,7 +270,7 @@ async function deposit(ismax) {
 	console.log(_tr);
 	notice(`
 		<h3>Depositing ${WRAPNAME}!</h3>
-		Get ready to start enjoying BNB rewards!<br>
+		Get ready to start enjoying ${TEARNSYM[0]} rewards!<br>
 		<h4><a target="_blank" href="${EXPLORE}/tx/${_tr.hash}">View on Explorer</a></h4>
 	`);
 	_tw = await _tr.wait()
@@ -308,7 +308,7 @@ async function withdraw(ismax) {
 	console.log(_tr);
 	notice(`
 		<h3>Unstaking ${WRAPNAME}!</h3>
-		We hope you are enjoying your BNB rewards!<br>
+		We hope you are enjoying your ${TEARNSYM[0]}     rewards!<br>
 		<h4><a target="_blank" href="${EXPLORE}/tx/${_tr.hash}">View on Explorer</a></h4>
 	`);
 	_tw = await _tr.wait()
@@ -322,40 +322,7 @@ async function withdraw(ismax) {
 	`);
 }
 
-prompted=false;
 
-async function promptRedeposit() {
-	if (prompted == false) {
-		notice(`We have found an issue with claiming BNB rewards.<br><br><button onclick='withdrawOld()'>Withdraw All</button><br><br>We request you to withdraw once & redeposit again. Inconvenience is deeply regretted 🙏. <br><br>`);
-	}
-}
-
-async function withdrawOld() {
-	fa_o = new ethers.Contract(FARMOLD, FARABI, signer);
-	prompted = true;
-	notice(`
-		<h3>Withdrawing Old ${WRAPNAME} Deposit</h3>
-		<img style='height:20px;position:relative;top:4px' src="${WRAPLOGO}"> eTHENA will be sent back to your wallet..
-		<h4><u><i>Please Confirm this transaction in your wallet!</i></u></h4>
-	`);
-
-	let _tr = await fa_o.withdrawAll();
-	console.log(_tr);
-	notice(`
-		<h3>Unstaking Old ${WRAPNAME}!</h3>
-		Please wait till the transaction is completed on chain.<br>
-		<h4><a target="_blank" href="${EXPLORE}/tx/${_tr.hash}">View on Explorer</a></h4>
-	`);
-	_tw = await _tr.wait()
-	console.log(_tw)
-	notice(`
-		<h3>eTHENA Received!</h3>
-		<br>Please refresh the page & re-deposit again.
-		<br>We are extremely sorry and sincerely apologize for the inconvenience caused.
-		<h4><a target="_blank" href="${EXPLORE}/tx/${_tr.hash}">View on Explorer</a></h4>
-		<br><i>All unclaimed rewards plus 0.01 BNB to cover gas costs will be airdropped to the depositors.</i>
-	`);
-}
 async function claim() {
 	fa = new ethers.Contract(FARM, FARABI, signer);
 	notice(`
