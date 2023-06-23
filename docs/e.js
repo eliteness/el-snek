@@ -220,10 +220,12 @@ async function sell() {
 	_id = $("nft-sel").value;
 	ve = new ethers.Contract(VENFT, VEABI, signer);
 	vm = new ethers.Contract(VENAMM,VMABI,signer);
+	vo = new ethers.Contract(VOTER, ["function attachments(uint) public view returns(uint)"], signer);
 	wrap=new ethers.Contract(WRAP,VEABI,signer);
 	alvo = await Promise.all([
 		ve.isApprovedOrOwner(VENAMM,_id),
-		ve.voted(_id)
+		ve.voted(_id),
+		vo.attached(_id)
 	]);
 	console.log("alvo: ",alvo);
 	if(alvo[0]==false) {
@@ -270,6 +272,16 @@ async function sell() {
 			<h4><a target="_blank" href="${EXPLORE}/tx/${_tr.hash}">View on Explorer</a></h4>
 			<br><br>
 			Please confirm the Trade at your wallet provider now.
+		`);
+	}
+	if(Number(alvo[2])>0) {
+		notice(`
+			<h2>Attached to Gauges</h2>
+			Your veNFT #${_id} is tied to ${alvo[2]} Gauge deposits, possibly for Boosted Farming on your Staked Liquidity positions.
+			<br><br>
+			To proceed, you need to unstake your ${alvo[2]} LPs from the Gauges first. After that you can mint ${WRAPNAME} and then you can re-stake your LPs back into the Gauges.
+			<br><br>
+			<h4><u><i>Please visit the original Gauges at <a target="_blank" href="${DEXLINK}">${DEXLINK}</a>to manage your LP deposits.</i></u></h4>
 		`);
 	}
 	qd = await Promise.all([
