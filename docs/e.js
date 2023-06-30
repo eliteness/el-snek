@@ -225,7 +225,7 @@ async function sell() {
 	alvo = await Promise.all([
 		ve.isApprovedOrOwner(VENAMM,_id),
 		ve.voted(_id),
-		vo.attachments(_id)
+		ve.attachments(_id)
 	]);
 	console.log("alvo: ",alvo);
 	if(alvo[0]==false) {
@@ -329,8 +329,8 @@ async function sell() {
 		Minted <img style='height:20px;position:relative;top:4px' src="${WRAPLOGO}"> <u>${fornum(_q[0],18)} ${WRAPNAME}</u> for <img style='height:20px;position:relative;top:4px' src="${BASELOGO}"> <u>veNFT #<b>${_id}</b></u>.
 		<br><br>
 		<h4><a target="_blank" href="${EXPLORE}/tx/${_tr.hash}">View on Explorer</a></h4>
-	`)
-	gubs()
+	`);
+	gubs();
 }
 
 function notice(c) {
