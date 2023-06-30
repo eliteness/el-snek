@@ -225,7 +225,7 @@ async function sell() {
 	alvo = await Promise.all([
 		ve.isApprovedOrOwner(VENAMM,_id),
 		ve.voted(_id),
-		vo.attached(_id)
+		vo.attachments(_id)
 	]);
 	console.log("alvo: ",alvo);
 	if(alvo[0]==false) {
